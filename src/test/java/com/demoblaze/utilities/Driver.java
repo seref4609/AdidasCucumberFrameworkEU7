@@ -1,4 +1,5 @@
-package com.vytrack.utilities;
+package com.demoblaze.utilities;
+
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -11,19 +12,26 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
-public class Driver {
+import java.util.concurrent.TimeUnit;
 
-    private Driver() {}
+public class Driver {
+    private Driver() {
+
+    }
 
     private static WebDriver driver;
 
     public static WebDriver get() {
+        // Test
         if (driver == null) {
+            // this line will tell which browser should open based on the value from properties file
             String browser = ConfigurationReader.get("browser");
             switch (browser) {
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver();
+                    driver.manage().window().maximize();
+                    driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
                     break;
                 case "chrome-headless":
                     WebDriverManager.chromedriver().setup();
@@ -59,8 +67,6 @@ public class Driver {
                     break;
             }
 
-
-
         }
 
         return driver;
@@ -71,6 +77,6 @@ public class Driver {
             driver.quit();
             driver = null;
         }
-
     }
+
 }

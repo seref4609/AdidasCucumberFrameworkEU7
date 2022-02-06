@@ -1,38 +1,40 @@
-package com.vytrack.utilities;
+package com.demoblaze.utilities;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
-/**
- * reads the properties file configuration.properties
- */
 public class ConfigurationReader {
 
-    private static Properties properties;
+    //#1- Create properties object
+    private static Properties properties = new Properties();
 
     static {
 
         try {
-            // what file to read
-            String path = "configuration.properties";
-            // read the file into java, finds the file using the string path
-            FileInputStream input = new FileInputStream(path);
-            // properties --> class that store properties in key / value format
-            properties = new Properties();
-            // the values from the file input is loaded / fed in to the properties object
-            properties.load(input);
+            //#2- Load the file into FileInputStream
+            FileInputStream file = new FileInputStream("configuration.properties");
 
-            input.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            //#3- load properties object with the file (configuration.properties)
+            properties.load(file);
+
+            //close the file
+            file.close();
+
+        } catch (IOException e) {
+
+            System.out.println("File not found in Configuration properties.");
 
         }
+
     }
 
-    public static String get(String keyName) {
+    //USE THE ABOVE CREATED LOGIC TO CREATE A RE-USABLE STATIC METHOD
+    public static String get(String keyWord){
 
-        return properties.getProperty(keyName);
+        return properties.getProperty(keyWord);
     }
 
 
 }
+
